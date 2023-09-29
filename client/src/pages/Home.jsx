@@ -32,7 +32,10 @@ function Home() {
           </h1>
         </PageCarousel>
         <PageCarousel>
-          <div className="grid grid-cols-2 grid-rows-2 gap-6 h-5/6 mt-8 w-5/6 mx-auto">
+          <h1 className="text-green-100 text-2xl w-4/5 font-bold mx-auto mt-2">
+            Meet the Founders
+          </h1>
+          <div className="grid grid-cols-2 grid-rows-2 gap-6 h-5/6 mt-4 w-5/6 mx-auto">
             <div className="bg-white rounded-sm">
               <img src={Founder1} className="object-cover h-full"></img>
             </div>
@@ -46,6 +49,11 @@ function Home() {
               <img src={Founder4} className="object-cover h-full"></img>
             </div>
           </div>
+        </PageCarousel>
+        <PageCarousel>
+          <h1 className="text-green-100 text-2xl w-4/5 font-bold mx-auto mt-2">
+            As featured in...
+          </h1>
         </PageCarousel>
       </div>
     </>
