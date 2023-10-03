@@ -1,16 +1,48 @@
+import React, { useState } from "react";
+
 import PageCarousel from "../components/PageCarousel";
+import ContentCard from "../components/ContentCard";
 import MahjongTile from "../assets/MahjongTile.png";
+import Modal from "../components/Modal";
+import TitleText from "../components/TitleText";
+
 import Founder1 from "../assets/Founder1.jpg";
 import Founder2 from "../assets/Founder2.jpg";
 import Founder3 from "../assets/Founder3.jpg";
 import Founder4 from "../assets/Founder4.jpg";
 
 function Home() {
+  // Modal Toggle
+  const [isOpen, setIsOpen] = useState(false);
+
+  // List of Founders
+  const FounderPhotoList = [Founder1, Founder2, Founder3, Founder4];
+  const FounderNameList = ["Mark Davis", "Emil Robinson", "David Kim", "Alice Nguyen"]
+
+  let FounderList = FounderPhotoList.map((photo, index) => {
+    return (
+      <>
+        <ContentCard>
+          <img
+            src={photo}
+            className="object-cover object-center h-4/5 rounded-sm drop-shadow-lg"
+          ></img>
+          <btn
+            className="bg-green-100 hover:bg-green-300 font-bold drop-shadow-lg"
+            onClick={() => setIsOpen(true)}
+          >
+            {FounderNameList[index]}
+          </btn>
+        </ContentCard>
+      </>
+    );
+  });
+
   return (
     <>
       <div className="h-screen snap-y snap-mandatory overflow-y-auto py-8">
         <PageCarousel>
-          <h1 className="text-green-700 -mt-3 leading-[150px] font-bold text-[170px] drop-shadow-[0_3px_1px_rgba(255,255,255,0.8)]">
+          <h1 className="text-green-600 -mt-3 leading-[150px] font-bold text-[170px] drop-shadow-[0_3px_1px_rgba(255,255,255,0.8)]">
             MAH<br></br>JONG
           </h1>
           <h1 className="text-gray-100 font-bold leading-[150px] text-[170px] drop-shadow-[0_3px_1px_rgba(0,0,0,0.8)]">
@@ -19,9 +51,7 @@ function Home() {
         </PageCarousel>
         <PageCarousel>
           <img src={MahjongTile} className="h-[200px] mt-2 mx-auto"></img>
-          <h1 className="text-green-100 text-2xl w-4/5 font-bold mx-auto my-2">
-            Welcome to the Club
-          </h1>
+          <TitleText>Welcome to the Club</TitleText>
           <h1 className="text-gray-100 text-xl w-4/5 font-bold mx-auto my-auto">
             The Mahjong Social Club is a vibrant gathering place for enthusiasts
             of the ancient Chinese tile game. Here, players of all skill levels
@@ -32,28 +62,21 @@ function Home() {
           </h1>
         </PageCarousel>
         <PageCarousel>
-          <h1 className="text-green-100 text-2xl w-4/5 font-bold mx-auto mt-2">
-            Meet the Founders
-          </h1>
+          <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+            <ContentCard>
+              <img
+                src={Founder1}
+                className="object-cover object-center h-4/5 rounded-sm drop-shadow-lg"
+              ></img>
+            </ContentCard>
+          </Modal>
+          <TitleText>Meet the Founders</TitleText>
           <div className="grid grid-cols-2 grid-rows-2 gap-6 h-5/6 mt-4 w-5/6 mx-auto">
-            <div className="bg-white rounded-sm">
-              <img src={Founder1} className="object-cover h-full"></img>
-            </div>
-            <div className="bg-white rounded-sm">
-              <img src={Founder2} className="object-cover h-full"></img>
-            </div>
-            <div className="bg-white rounded-sm">
-              <img src={Founder3} className="object-cover h-full"></img>
-            </div>
-            <div className="bg-white rounded-sm">
-              <img src={Founder4} className="object-cover h-full"></img>
-            </div>
+            {FounderList}
           </div>
         </PageCarousel>
         <PageCarousel>
-          <h1 className="text-green-100 text-2xl w-4/5 font-bold mx-auto mt-2">
-            As featured in...
-          </h1>
+          <TitleText>As featured in...</TitleText>
         </PageCarousel>
       </div>
     </>
