@@ -32,7 +32,7 @@ function Founders() {
   let FounderList = FounderPhotoList.map((photo, index) => {
     return (
       <React.Fragment key={index}>
-        <ContentCard>
+        <ContentCard className="justify-around">
           <img
             src={photo}
             className="object-cover object-center h-4/5 rounded-sm drop-shadow-lg"
@@ -63,7 +63,7 @@ function Founders() {
             <>
               <img
                 src={selectedProfile.photo}
-                className="object-cover object-center h-4/5 rounded-sm drop-shadow-lg max-h-[600px]"
+                className="object-cover object-center h-4/5 rounded-sm drop-shadow-lg max-h-[600px] mt-2"
               ></img>
               <h2 className="text-black font-bold">{selectedProfile.name}</h2>
               <p className="text-black">{selectedProfile.desc}</p>
