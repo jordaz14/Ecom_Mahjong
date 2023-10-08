@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 
 import PageCarousel from "../components/PageCarousel";
-import ContentCard from "../components/ContentCard";
-import TitleText from "../components/TitleText";
-import Founders from "../section/Founders";
 
+import Founders from "../section/Founders";
 import Banner from "../section/Banner";
 import About from "../section/About";
+import Contact from "../section/Contact";
 
 function Home() {
   return (
@@ -22,16 +21,7 @@ function Home() {
           <Founders />
         </PageCarousel>
         <PageCarousel>
-          <TitleText>Contact Us</TitleText>
-          <ContentCard className="w-3/4 mx-auto">
-            <>
-            <input type="text"></input>
-            <p>Test</p>
-            <p>Test</p>
-            <p>Test</p>
-            <p>Test</p>
-            </>
-          </ContentCard>
+          <Contact />
         </PageCarousel>
       </div>
     </>
