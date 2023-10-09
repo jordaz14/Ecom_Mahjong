@@ -5,6 +5,7 @@ import Login from "./pages/LogIn";
 import Events from "./pages/Events";
 import Home from "./pages/Home";
 import Merch from "./pages/Merch";
+import Register from "./pages/Register";
 
 import Navbar from "./components/Navbar";
 
@@ -18,6 +19,7 @@ function App() {
           <Route path="/events" element={<Events />} />
           <Route path="/merch" element={<Merch />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </Router>
     </>
