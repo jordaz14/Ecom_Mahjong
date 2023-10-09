@@ -1,8 +1,15 @@
+import TitleText from "../components/TitleText.jsx";
+import PageCarousel from "../components/PageCarousel.jsx";
+
 function LogIn() {
   return (
-    <h1 className="text-white font-bold text-center">
-      Welcome to the Log-In page
-    </h1>
+    <>
+      <div className="h-screen snap-y snap-mandatory overflow-y-auto py-8">
+        <PageCarousel className="md:w-2/3 mx-auto">
+          <TitleText>This is a test </TitleText>
+        </PageCarousel>
+      </div>
+    </>
   );
 }
 
