@@ -11,16 +11,16 @@ function Home() {
   return (
     <>
       <div className="h-screen snap-y snap-mandatory overflow-y-auto py-8">
-        <PageCarousel>
+        <PageCarousel className="md:w-2/3 mx-auto">
           <Banner />
         </PageCarousel>
-        <PageCarousel>
+        <PageCarousel className="md:w-2/3 mx-auto">
           <About />
         </PageCarousel>
-        <PageCarousel>
+        <PageCarousel className="md:w-2/3 mx-auto">
           <Founders />
         </PageCarousel>
-        <PageCarousel>
+        <PageCarousel className="md:w-2/3 mx-auto">
           <Contact />
         </PageCarousel>
       </div>

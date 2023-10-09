@@ -38,7 +38,7 @@ function Founders() {
             className="object-cover object-center h-4/5 rounded-sm drop-shadow-lg"
           ></img>
           <button
-            className="bg-green-100 hover:bg-green-300 font-bold drop-shadow-lg"
+            className="bg-green-100 hover:bg-green-300 font-bold drop-shadow-lg md:text-2xl"
             onClick={() => {
               setSelectedProfile({
                 name: FounderNameList[index],
@@ -58,15 +58,15 @@ function Founders() {
   return (
     <>
       <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-        <ContentCard>
+        <ContentCard className="md:w-3/5 mx-auto md:h-[800px]">
           {selectedProfile && (
             <>
               <img
                 src={selectedProfile.photo}
                 className="object-cover object-center h-4/5 rounded-sm drop-shadow-lg max-h-[600px] mt-2"
               ></img>
-              <h2 className="text-black font-bold">{selectedProfile.name}</h2>
-              <p className="text-black">{selectedProfile.desc}</p>
+              <h2 className="text-black font-bold md:text-2xl">{selectedProfile.name}</h2>
+              <p className="text-black md:text-xl">{selectedProfile.desc}</p>
             </>
           )}
         </ContentCard>
