@@ -65,7 +65,9 @@ function Founders() {
                 src={selectedProfile.photo}
                 className="object-cover object-center h-4/5 rounded-sm drop-shadow-lg max-h-[600px] mt-2"
               ></img>
-              <h2 className="text-black font-bold md:text-2xl">{selectedProfile.name}</h2>
+              <h2 className="text-black font-bold md:text-2xl">
+                {selectedProfile.name}
+              </h2>
               <p className="text-black md:text-xl">{selectedProfile.desc}</p>
             </>
           )}

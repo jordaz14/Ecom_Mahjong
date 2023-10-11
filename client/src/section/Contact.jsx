@@ -6,6 +6,7 @@ import TitleText from "../components/TitleText";
 import Insta from "../assets/InstaIcon.svg";
 import LinkedIn from "../assets/Linkedin.png";
 import Email from "../assets/EmailIcon.png";
+import Icon from "../components/Icon";
 
 function Contact() {
   return (
@@ -32,19 +33,13 @@ function Contact() {
       </ContentCard>
       <section className="flex justify-around items-center mt-8">
         <a href="https://www.instagram.com/">
-          <div className="bg-green-100 hover:bg-green-300 rounded-full w-12 h-12 flex md:h-20 md:w-20">
-            <img src={Insta} className="w-3/5 h-3/5 mx-auto my-auto" />
-          </div>
+          <Icon img={Insta} className="md:h-20 md:w-20" />
         </a>
         <a href="https://www.linkedin.com/feed/">
-          <div className="bg-green-100 hover:bg-green-300 rounded-full w-12 h-12 flex md:h-20 md:w-20">
-            <img src={LinkedIn} className=" w-3/5 h-3/5 mx-auto my-auto" />
-          </div>
+          <Icon img={LinkedIn} className="md:h-20 md:w-20" />
         </a>
         <a href="mailto:mahjongsocial@gmail.com">
-          <div className="bg-green-100 hover:bg-green-300 rounded-full w-12 h-12 flex md:h-20 md:w-20">
-            <img src={Email} className=" w-3/5 h-3/5 mx-auto my-auto" />
-          </div>
+          <Icon img={Email} className="md:h-20 md:w-20" />
         </a>
       </section>
     </>

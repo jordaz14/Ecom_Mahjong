@@ -1,5 +1,6 @@
 import React from "react";
 
+import CreateCarousel from "../components/CreateCarousel";
 import PageCarousel from "../components/PageCarousel";
 
 import Founders from "../section/Founders";
@@ -10,7 +11,7 @@ import Contact from "../section/Contact";
 function Home() {
   return (
     <>
-      <div className="h-screen snap-y snap-mandatory overflow-y-auto py-8">
+      <CreateCarousel>
         <PageCarousel className="md:w-2/3 mx-auto">
           <Banner />
         </PageCarousel>
@@ -23,7 +24,7 @@ function Home() {
         <PageCarousel className="md:w-2/3 mx-auto">
           <Contact />
         </PageCarousel>
-      </div>
+      </CreateCarousel>
     </>
   );
 }
