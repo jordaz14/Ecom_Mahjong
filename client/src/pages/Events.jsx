@@ -1,9 +1,17 @@
+import CreateCarousel from "../components/CreateCarousel";
+import PageCarousel from "../components/PageCarousel";
+import TitleText from "../components/TitleText";
+
 function Events() {
-    return (
-      <>
-        <h1 className="text-white font-bold text-center">Welcome to the Events page</h1>
-        </>
-    );
-  }
+  return (
+    <>
+      <CreateCarousel>
+        <PageCarousel>
+          <TitleText>October 2023</TitleText>
+        </PageCarousel>
+      </CreateCarousel>
+    </>
+  );
+}
 
 export default Events;
