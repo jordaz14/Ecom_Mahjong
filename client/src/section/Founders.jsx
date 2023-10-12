@@ -58,17 +58,17 @@ function Founders() {
   return (
     <>
       <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-        <ContentCard className="md:w-3/5 mx-auto md:h-[800px]">
+        <ContentCard className="md:w-3/5 mx-auto md:h-[700px]">
           {selectedProfile && (
             <>
               <img
                 src={selectedProfile.photo}
                 className="object-cover object-center h-4/5 rounded-sm drop-shadow-lg max-h-[600px] mt-2"
               ></img>
-              <h2 className="text-black font-bold md:text-2xl">
+              <h2 className="text-black font-bold md:text-xl">
                 {selectedProfile.name}
               </h2>
-              <p className="text-black md:text-xl">{selectedProfile.desc}</p>
+              <p className="text-black">{selectedProfile.desc}</p>
             </>
           )}
         </ContentCard>
