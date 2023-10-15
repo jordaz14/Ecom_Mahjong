@@ -14,14 +14,6 @@ const conn = {
 const pgp = require("pg-promise")();
 const db = pgp(conn);
 
-db.one("SELECT $1 AS value", 123)
-  .then((data) => {
-    console.log("DATA:", data.value);
-  })
-  .catch((error) => {
-    console.log("ERROR:", error);
-  });
-
 app.get("/api", (req, res) => {
   res.json({ users: ["userOne", "userTwo", "userThree"] });
 });
