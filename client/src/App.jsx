@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Merch from "./pages/Merch";
 import Register from "./pages/Register";
 import Checkout from "./pages/Checkout";
+import Test from "./pages/Test";
 
 import Navbar from "./section/Navbar";
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/test" element={<Test />} />
         </Routes>
       </Router>
     </>
