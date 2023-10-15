@@ -6,8 +6,9 @@ import Events from "./pages/Events";
 import Home from "./pages/Home";
 import Merch from "./pages/Merch";
 import Register from "./pages/Register";
+import Checkout from "./pages/Checkout";
 
-import Navbar from "./components/Navbar";
+import Navbar from "./section/Navbar";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/merch" element={<Merch />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/checkout" element={<Checkout />} />
         </Routes>
       </Router>
     </>
