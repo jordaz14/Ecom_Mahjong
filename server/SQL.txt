@@ -1,0 +1,7 @@
+CREATE TABLE users (
+    user_id serial PRIMARY KEY,
+    email TEXT NOT NULL,
+    password TEXT NOT NULL
+);
+
+INSERT INTO users(email, password) VALUES ('1julianordaz@gmail.com', 'password'); 
