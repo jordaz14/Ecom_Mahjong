@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 import PageCarousel from "../components/PageCarousel";
 import ContentCard from "../components/ContentCard";
@@ -6,6 +7,28 @@ import TitleText from "../components/TitleText";
 import CreateCarousel from "../components/CreateCarousel";
 
 function Register() {
+  const [Email, SetEmail] = useState("");
+  const [Password, SetPassword] = useState("");
+  const [Message, SetMessage] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    const UserData = {
+      email: Email,
+      password: Password,
+    };
+    try {
+      const Response = await axios.post(
+        "http://localhost:5000/user-register",
+        UserData
+      );
+      console.log(Response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const [ShowPassword, SetShowPassword] = useState("password");
   const ShowPasswordToggle = () => {
     if (ShowPassword == "password") {
@@ -20,38 +43,48 @@ function Register() {
         <PageCarousel className="md:w-2/3 mx-auto">
           <TitleText>Create an account</TitleText>
           <ContentCard className="w-3/4 mx-auto py-2 px-4">
-            <form className="flex flex-col h-full">
-              <label for="email" className="text-left md:text-2xl">
+            <form onSubmit={handleSubmit} className="flex flex-col h-full">
+              <label htmlFor="email" className="text-left md:text-2xl">
                 Enter your email address:
               </label>
               <input
                 type="email"
                 id="email"
+                value={Email}
                 placeholder="user@email.com"
+                onChange={(e) => SetEmail(e.target.value)}
               ></input>
-              <label for="email" className="text-left md:text-2xl">
+              <label htmlFor="password" className="text-left md:text-2xl">
                 Enter your password:
               </label>
               <input
                 type={ShowPassword}
                 id="password"
+                value={Password}
                 placeholder="password"
+                onChange={(e) => SetPassword(e.target.value)}
               ></input>
-              <label for="email" className="text-left md:text-2xl">
+              <label
+                htmlFor="confirmpassword"
+                className="text-left md:text-2xl"
+              >
                 Confirm your password:
               </label>
               <input
                 type={ShowPassword}
-                id="confirmpassword"
                 placeholder="confirm password"
+                id="confirmpassword"
               ></input>
               <div className="flex mt-2">
                 <input
                   type="checkbox"
-                  id="CheckPassword"
                   onClick={ShowPasswordToggle}
+                  id="checkbox"
                 ></input>
-                <label for="checkbox" className="ml-2 text-left md:text-2xl">
+                <label
+                  htmlFor="checkbox"
+                  className="ml-2 text-left md:text-2xl"
+                >
                   Show Password
                 </label>
               </div>
@@ -66,6 +99,7 @@ function Register() {
               </a>
             </p>
           </ContentCard>
+          <p className="text-white">{Message}</p>
         </PageCarousel>
       </CreateCarousel>
     </>

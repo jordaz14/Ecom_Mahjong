@@ -1,5 +1,8 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
+
+app.use(cors());
 
 require("dotenv").config({ path: "../hidden.env" });
 
@@ -14,8 +17,16 @@ const conn = {
 const pgp = require("pg-promise")();
 const db = pgp(conn);
 
-app.get("/api", (req, res) => {
-  res.json({ users: ["userOne", "userTwo", "userThree"] });
+app.get("/test", (req, res) => {
+  res.json({
+    john: { age: 32, hobby: "soccer", single: true },
+    kat: { age: 21, hobby: "football", single: false },
+  });
+});
+
+app.post("/user-register", (req, res) => {
+  console.log(req.body);
+  res.send({hello: "world"});
 });
 
 app.listen(5000, () => {
