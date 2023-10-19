@@ -3,6 +3,7 @@ const cors = require("cors");
 const app = express();
 
 app.use(cors());
+app.use(express.json());
 
 require("dotenv").config({ path: "../hidden.env" });
 
@@ -25,8 +26,19 @@ app.get("/test", (req, res) => {
 });
 
 app.post("/user-register", (req, res) => {
-  console.log(req.body);
-  res.send({hello: "world"});
+  const UserData = req.body;
+
+  const CheckUser = 'SELECT * FROM users WHERE email = $1';
+
+  console.log(UserData.email)
+  console.log(db.query(CheckUser, [UserData.email]));
+
+  /*
+  const InsertUser = 'INSERT INTO users (email, password) VALUES ($1, $2)';
+  db.query(InsertUser, [UserData.email, UserData.password]);
+  */
+
+  res.send("POST REQUEST SUBMITTED");
 });
 
 app.listen(5000, () => {
