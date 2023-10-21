@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import axios from "axios";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 import CreateCarousel from "../components/CreateCarousel.jsx";
 import TitleText from "../components/TitleText.jsx";
@@ -6,6 +9,31 @@ import PageCarousel from "../components/PageCarousel.jsx";
 import ContentCard from "../components/ContentCard.jsx";
 
 function LogIn() {
+  const [Email, SetEmail] = useState("");
+  const [Password, SetPassword] = useState("");
+  const [Message, SetMessage] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    SetMessage(null);
+
+    const UserData = {
+      email: Email,
+      password: Password,
+    };
+    try {
+      const Response = await axios.post(
+        "http://localhost:5000/user-login",
+        UserData
+      );
+      console.log(Response.data);
+      SetMessage(Response.data.Message);
+      cookies.set("TOKEN", Response.data.Token, { path: "/" });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const [ShowPassword, SetShowPassword] = useState("password");
   const ShowPasswordToggle = () => {
     if (ShowPassword == "password") {
@@ -14,20 +42,23 @@ function LogIn() {
       SetShowPassword("password");
     }
   };
+
   return (
     <>
       <CreateCarousel>
         <PageCarousel className="md:w-2/3 mx-auto">
           <TitleText>Log in to your account</TitleText>
           <ContentCard className="w-3/4 mx-auto py-2 px-4">
-            <form className="flex flex-col h-full">
+            <form onSubmit={handleSubmit} className="flex flex-col h-full">
               <label for="email" className="text-left md:text-2xl">
                 Enter your email address:
               </label>
               <input
                 type="email"
                 id="Email"
+                value={Email}
                 placeholder="user@email.com"
+                onChange={(e) => SetEmail(e.target.value)}
               ></input>
               <label for="email" className="text-left md:text-2xl">
                 Enter your password:
@@ -35,7 +66,9 @@ function LogIn() {
               <input
                 type={ShowPassword}
                 id="Password"
+                value={Password}
                 placeholder="password"
+                onChange={(e) => SetPassword(e.target.value)}
               ></input>
               <div className="flex mt-2">
                 <input
@@ -58,6 +91,7 @@ function LogIn() {
               </a>
             </p>
           </ContentCard>
+          <p className="text-white">{Message}</p>
         </PageCarousel>
       </CreateCarousel>
     </>

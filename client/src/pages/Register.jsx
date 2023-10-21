@@ -13,7 +13,8 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    SetMessage(null);
+
     const UserData = {
       email: Email,
       password: Password,
@@ -23,7 +24,7 @@ function Register() {
         "http://localhost:5000/user-register",
         UserData
       );
-      console.log(Response);
+      SetMessage(Response.data);
     } catch (err) {
       console.log(err);
     }
@@ -37,6 +38,7 @@ function Register() {
       SetShowPassword("password");
     }
   };
+
   return (
     <>
       <CreateCarousel>
@@ -63,17 +65,6 @@ function Register() {
                 value={Password}
                 placeholder="password"
                 onChange={(e) => SetPassword(e.target.value)}
-              ></input>
-              <label
-                htmlFor="confirmpassword"
-                className="text-left md:text-2xl"
-              >
-                Confirm your password:
-              </label>
-              <input
-                type={ShowPassword}
-                placeholder="confirm password"
-                id="confirmpassword"
               ></input>
               <div className="flex mt-2">
                 <input
