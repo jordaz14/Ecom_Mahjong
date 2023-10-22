@@ -24,7 +24,7 @@ function Register() {
         "http://localhost:5000/user-register",
         UserData
       );
-      SetMessage(Response.data);
+      SetMessage(Response.data.Message);
     } catch (err) {
       console.log(err);
     }
