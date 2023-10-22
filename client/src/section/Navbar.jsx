@@ -1,3 +1,7 @@
+import { useState } from "react";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
+
 import Icon from "../components/Icon";
 
 import Cart from "../assets/Cart.png";
@@ -8,9 +12,26 @@ import CreateCarousel from "../components/CreateCarousel.jsx";
 import PageCarousel from "../components/PageCarousel.jsx";
 import Button from "../components/Button";
 
-import { useState } from "react";
-
 function Navbar() {
+  const Token = cookies.get("TOKEN");
+  console.log(Token);
+
+  const IsLoggedIn = () => {
+    if (Token == undefined) {
+      return (
+        <a href="/login" className="text-black">
+          LOG-IN
+        </a>
+      );
+    } else {
+      return (
+        <a href="/myaccount" className="text-black">
+          MY ACCOUNT
+        </a>
+      );
+    }
+  };
+
   const [IsMenu, SetIsMenu] = useState("hidden");
   const [IsCart, SetIsCart] = useState("hidden");
   return (
@@ -32,7 +53,7 @@ function Navbar() {
               <div className="bg-white w-[95%] mx-auto">
                 <div className="flex justify-around">
                   <div className="bg-slate-100">
-                  <p>Photo</p>
+                    <p>Photo</p>
                   </div>
                   <div>
                     <p>T-Shirt</p>
@@ -40,16 +61,30 @@ function Navbar() {
                   </div>
                   <div>
                     <div className="flex justify-around">
-                    <Button className={'bg-slate-100 hover:bg-slate-200 rounded-full'}>+</Button>
-                    <p className="mx-2">Count</p>
-                    <Button className={'bg-slate-100 hover:bg-slate-200 rounded-full'}>-</Button>
+                      <Button
+                        className={
+                          "bg-slate-100 hover:bg-slate-200 rounded-full"
+                        }
+                      >
+                        +
+                      </Button>
+                      <p className="mx-2">Count</p>
+                      <Button
+                        className={
+                          "bg-slate-100 hover:bg-slate-200 rounded-full"
+                        }
+                      >
+                        -
+                      </Button>
                     </div>
-                    <Button className={'bg-red-100 hover:bg-red-200 w-full'}>Delete</Button>
+                    <Button className={"bg-red-100 hover:bg-red-200 w-full"}>
+                      Delete
+                    </Button>
                   </div>
                 </div>
               </div>
               <a href="/checkout">
-              <Button>Check Out</Button>
+                <Button>Check Out</Button>
               </a>
             </PageCarousel>
           </CreateCarousel>
@@ -67,9 +102,7 @@ function Navbar() {
             <a href="/merch" className="text-white">
               MERCH
             </a>
-            <a href="/login" className="text-white">
-              LOG-IN
-            </a>
+            {IsLoggedIn()}
           </div>
           <div className="bg-green-100 hover:bg-green-300 rounded-full w-6 h-6 flex md:h-10 md:w-10 ml-4">
             <Icon img={Cart} onClick={() => SetIsCart("block")} />
@@ -97,9 +130,7 @@ function Navbar() {
                 <a href="/merch" className="text-black">
                   MERCH
                 </a>
-                <a href="/login" className="text-black">
-                  LOG-IN
-                </a>
+                {IsLoggedIn()}
               </div>
             </PageCarousel>
           </CreateCarousel>
