@@ -32,7 +32,7 @@ app.post("/user-login", (req, res) => {
 
   // Check if UserData is valid
   if (UserData.name == "" || UserData.password == "") {
-    return res.send({Message: "Please enter valid user info."});
+    return res.send({ Message: "Please enter valid user info." });
   }
 
   // DB Queries
@@ -43,7 +43,9 @@ app.post("/user-login", (req, res) => {
     const QueryUserData = await db.query(QueryUser, [UserData.email]);
 
     if (QueryUserData.length == 0) {
-      return res.send({Message: "Account doesn't exist. Try creating an account"});
+      return res.send({
+        Message: "Account doesn't exist. Try creating an account",
+      });
     }
 
     const MatchingPasswordCheck = await bcrypt.compare(
@@ -52,7 +54,7 @@ app.post("/user-login", (req, res) => {
     );
 
     if (!MatchingPasswordCheck) {
-      return res.send({Message: "Passwords do not match. Try again"});
+      return res.send({ Message: "Passwords do not match. Try again" });
     } else {
       const Token = jwt.sign({ UserId: UserData.email }, "RANDOM-TOKEN");
 
@@ -69,7 +71,7 @@ app.post("/user-register", (req, res) => {
 
   // Check if UserData is valid
   if (UserData.name == "" || UserData.password == "") {
-    return res.send({Message: "Please enter valid user info."});
+    return res.send({ Message: "Please enter valid user info." });
   }
 
   // DB Queries
@@ -81,15 +83,28 @@ app.post("/user-register", (req, res) => {
     const QueryUserData = await db.query(QueryUser, [UserData.email]);
 
     if (QueryUserData.length > 0) {
-      return res.send({Message:"Account already exists. Try logging in."});
+      return res.send({ Message: "Account already exists. Try logging in." });
     } else {
       const HashPassword = await bcrypt.hash(UserData.password, 10);
       db.query(InsertUser, [UserData.email, HashPassword]);
-      return res.send({Message:"Account created. Welcome!"});
+      return res.send({ Message: "Account created. Welcome!" });
     }
   };
 
   CheckUserAndCreateAccount();
+});
+
+app.get("/merch-products", (req, res) => {
+  const QueryProducts = "SELECT * FROM products";
+
+  const GatherAllProducts = async () => {
+    const QueryProductsData = await db.query(QueryProducts);
+
+    console.log(QueryProductsData);
+    return res.send(QueryProductsData);
+  };
+
+  GatherAllProducts();
 });
 
 app.listen(5000, () => {

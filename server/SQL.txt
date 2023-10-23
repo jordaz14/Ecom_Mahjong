@@ -5,3 +5,29 @@ CREATE TABLE users (
 );
 
 INSERT INTO users(email, password) VALUES ('1julianordaz@gmail.com', 'password'); 
+
+CREATE TABLE products (
+    product_id serial PRIMARY KEY,
+    product TEXT NOT NULL,
+    description TEXT NOT NULL,
+    price NUMERIC(10,2) NOT NULL,
+    image BYTEA NOT NULL
+);
+
+INSERT INTO products(product, description, price, image) VALUES ('Mahjong Hoodie', '
+Stay cozy in style with our Mahjong-themed hoodie, featuring intricate tile designs and a comfortable fit for all-day gaming sessions.', 24.99, pg_read_binary_file('C:\Program Files\PostgreSQL\16rc1\data\databases\mahjong\Shirt3.png') );
+
+INSERT INTO products(product, description, price, image) VALUES ('Shirt 3-Tile', '
+Add a touch of elegance to your wardrobe with our Mahjong-themed t-shirt, featuring intricate tile designs for a stylish and unique look.', 19.99, pg_read_binary_file('C:\Program Files\PostgreSQL\16rc1\data\databases\mahjong\Shirt2.jpg') );
+
+INSERT INTO products(product, description, price, image) VALUES ('Shirt 2-Tile', '
+Add a touch of elegance to your wardrobe with our Mahjong-themed t-shirt, featuring intricate tile designs for a stylish and unique look.', 19.99, pg_read_binary_file('C:\Program Files\PostgreSQL\16rc1\data\databases\mahjong\Shirt1.jpg') );
+
+INSERT INTO products(product, description, price, image) VALUES ('Mahjong Set', '
+Elevate your game nights with our exquisite Mahjong game set, crafted with attention to detail and quality materials for an authentic and enjoyable gaming experience.', 59.99, pg_read_binary_file('C:\Program Files\PostgreSQL\16rc1\data\databases\mahjong\Set1.png') );
+
+INSERT INTO products(product, description, price, image) VALUES ('Mahjong Mug', '
+Sip your favorite beverage in style with our Mahjong-inspired mug, adorned with elegant tile motifs to infuse your coffee breaks with a touch of tradition and sophistication.', 12.99, pg_read_binary_file('C:\Program Files\PostgreSQL\16rc1\data\databases\mahjong\Cup1.jpg') );
+
+INSERT INTO products(product, description, price, image) VALUES ('Mahjong Tumbler', '
+Designed to keep your drink at the perfect temperature, featuring a sleek tile-inspired design for the ultimate gaming companion.', 16.99, pg_read_binary_file('C:\Program Files\PostgreSQL\16rc1\data\databases\mahjong\Cup2.png') );
