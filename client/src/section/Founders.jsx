@@ -4,10 +4,10 @@ import ContentCard from "../components/ContentCard";
 import Modal from "../components/Modal";
 import TitleText from "../components/TitleText";
 
-import Founder1 from "../assets/Founder1.jpg";
-import Founder2 from "../assets/Founder2.jpg";
-import Founder3 from "../assets/Founder3.jpg";
-import Founder4 from "../assets/Founder4.jpg";
+import Founder1 from "../assets/profiles/Founder1.jpg";
+import Founder2 from "../assets/profiles/Founder2.jpg";
+import Founder3 from "../assets/profiles/Founder3.jpg";
+import Founder4 from "../assets/profiles/Founder4.jpg";
 
 function Founders() {
   // Modal Toggle
