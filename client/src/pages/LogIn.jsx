@@ -29,7 +29,7 @@ function LogIn() {
       console.log(Response.data);
       SetMessage(Response.data.Message);
       cookies.set("TOKEN", Response.data.Token, { path: "/" });
-      window.location.replace("/");
+      /// window.location.replace("/");
     } catch (err) {
       console.log(err);
     }
