@@ -12,9 +12,13 @@ import Checkout from "./pages/Checkout";
 import Test from "./pages/Test";
 import MyAccount from "./pages/MyAccount";
 
+import ProtectedRoute from "./pages/ProtectedRoute";
+
 import Navbar from "./section/Navbar";
 
 function App() {
+  const Token = cookies.get("TOKEN");
+
   return (
     <>
       <Router>
@@ -24,9 +28,24 @@ function App() {
           <Route path="/events" element={<Events />} />
           <Route path="/merch" element={<Merch />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/landing" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/myaccount" element={<MyAccount />} />
-          <Route path="/checkout" element={<Checkout />} />
+          <Route
+            path="/myaccount"
+            element={
+              <ProtectedRoute user={Token}>
+                <MyAccount />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <ProtectedRoute user={Token}>
+                <Checkout />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/test" element={<Test />} />
         </Routes>
       </Router>
