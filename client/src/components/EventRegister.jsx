@@ -52,7 +52,7 @@ function EventRegister({ IDNum }) {
           <div className={"bg-gray-100 py-2 rounded-xl " + RegisterToggle.Desc}>
             <h2 className="font-bold">{"Location " + IDNum}</h2>
             <p>{"Description " + IDNum}</p>
-            <Button>Buy Ticket</Button>
+            <Button>Add to Cart</Button>
           </div>
         </div>
         <Icon

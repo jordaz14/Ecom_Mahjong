@@ -1,6 +1,6 @@
 import React from "react";
 
-function Button({ children, onClick, className }) {
+function Button({ children, onClick, className, value }) {
   return (
     <>
       <button
@@ -9,6 +9,7 @@ function Button({ children, onClick, className }) {
           className
         }
         onClick={onClick}
+        value={value}
       >
         &nbsp;{children}&nbsp;
       </button>
