@@ -19,15 +19,21 @@ function Merch() {
 
         let ProductList = RequestList.map((products, index) => {
           return (
-            <PageCarousel>
-              <React.Fragment key={index}>
-                <ContentCard className="mt-2 h-2/3 w-4/5 mx-auto">
-                  <p className="text-black">{products.product}</p>
+            <PageCarousel key={index}>
+              <>
+                <ContentCard className="mt-2 h-3/4 w-4/5 mx-auto">
+                  <p className="text-black font-bold">{products.product}</p>
+                  <p className="text-black font-bold">${products.price}</p>
+                  <img
+                    src={`/products/${products.path}`}
+                    className="h-30"
+                  ></img>
                   <p className="text-black">{products.description}</p>
-                  <p className="text-black">${products.price}</p>
-                  <Button>Add to Cart</Button>
+                  <Button onClick={AddToCart} value={products.product_id}>
+                    Add to Cart
+                  </Button>
                 </ContentCard>
-              </React.Fragment>
+              </>
             </PageCarousel>
           );
         });
@@ -38,6 +44,23 @@ function Merch() {
       }
     }
     FetchProducts();
+
+    async function AddToCart(e) {
+      console.log(e.target.value);
+
+      const AddProduct = {
+        ProdId: e.target.value,
+      };
+
+      try {
+        const Response = await axios.post(
+          "http://localhost:5000/add-to-cart",
+          AddProduct
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }
   }, []);
 
   return (

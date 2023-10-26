@@ -8,6 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 require("dotenv").config({ path: "../hidden.env" });
+const auth = require("./auth");
 
 const conn = {
   host: "localhost",
@@ -20,7 +21,7 @@ const conn = {
 const pgp = require("pg-promise")();
 const db = pgp(conn);
 
-app.get("/test", (req, res) => {
+app.get("/test", auth, (req, res) => {
   res.json({
     john: { age: 32, hobby: "soccer", single: true },
     kat: { age: 21, hobby: "football", single: false },
@@ -105,6 +106,11 @@ app.get("/merch-products", (req, res) => {
   };
 
   GatherAllProducts();
+});
+
+app.post("/add-to-cart", (req, res) => {
+  console.log(req.body);
+  res.send("POST RECEIVED");
 });
 
 app.listen(5000, () => {
