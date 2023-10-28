@@ -33,10 +33,11 @@ INSERT INTO products(product, description, price, path) VALUES ('Mahjong Tumbler
 Designed to keep your drink at the perfect temperature, featuring a sleek tile-inspired design for the ultimate gaming companion.', 16.99, 'Cup2.png');
 
 CREATE TABLE cart (
-    cart_id serial PRIMARY KEY
+    cart_id serial PRIMARY KEY,
     user_id INT NOT NULL REFERENCES users(user_id),
     product_id INT NOT NULL REFERENCES products(product_id),
     product_price NUMERIC(10,2) NOT NULL,
     product_amount INT NOT NULL,
-    cart_total NUMERIC(10,2) NOT NULL
+    product_name TEXT NOT NULL,
+    product_path TEXT NOT NULL
 );

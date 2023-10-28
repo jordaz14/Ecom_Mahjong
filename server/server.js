@@ -57,7 +57,10 @@ app.post("/user-login", (req, res) => {
     if (!MatchingPasswordCheck) {
       return res.send({ Message: "Passwords do not match. Try again" });
     } else {
-      const Token = jwt.sign({ UserId: UserData.email }, "RANDOM-TOKEN");
+      const Token = jwt.sign(
+        { UserId: UserData.email, UserUnique: UserData.user_id },
+        "RANDOM-TOKEN"
+      );
 
       res.send({ Message: "Login successful", Auth: UserData.email, Token });
     }
@@ -109,8 +112,79 @@ app.get("/merch-products", (req, res) => {
 });
 
 app.post("/add-to-cart", (req, res) => {
-  console.log(req.body);
+  const CartData = req.body;
+
+  const DecodedToken = jwt.verify(CartData.Token, "RANDOM-TOKEN");
+
+  const QueryProducts = "SELECT * FROM products WHERE product_id = $1";
+  const QueryUser = "SELECT * FROM users WHERE email = $1";
+  const QueryCart = "SELECT * FROM cart WHERE product_id = $1 AND user_id = $2";
+  const InsertCart =
+    "INSERT INTO cart (user_id, product_id, product_price, product_amount, product_name, product_path) VALUES ($1, $2, $3, $4, $5, $6)";
+  const UpdateCart =
+    "UPDATE cart SET product_amount = $1 WHERE product_id = $2 AND user_id = $3";
+
+  const GatherProductGatherUserAddToCart = async () => {
+    const QueryProductsData = await db.query(QueryProducts, [CartData.ProdId]);
+    console.log(QueryProductsData);
+
+    const QueryUserData = await db.query(QueryUser, [DecodedToken.UserId]);
+    console.log(QueryUserData);
+
+    const QueryCartData = await db.query(QueryCart, [
+      QueryProductsData[0].product_id,
+      QueryUserData[0].user_id,
+    ]);
+    console.log(QueryCartData);
+
+    if (QueryCartData.length > 0) {
+      console.log("Entry found");
+      const NewProductAmount = QueryCartData[0].product_amount + 1;
+      db.query(UpdateCart, [
+        NewProductAmount,
+        QueryProductsData[0].product_id,
+        QueryUserData[0].user_id,
+      ]);
+    } else {
+      console.log("Entry not found");
+      db.query(InsertCart, [
+        QueryUserData[0].user_id,
+        QueryProductsData[0].product_id,
+        QueryProductsData[0].price,
+        1,
+        QueryProductsData[0].product,
+        QueryProductsData[0].path,
+      ]);
+    }
+  };
+
+  GatherProductGatherUserAddToCart();
+
   res.send("POST RECEIVED");
+});
+
+app.post("/get-cart", (req, res) => {
+  // Initialize req data to UserData
+  const UserData = req.body;
+
+  // Decode Token contained with UserData
+  const DecodedToken = jwt.verify(UserData.Token, "RANDOM-TOKEN");
+
+  const QueryUser = "SELECT * FROM users WHERE email = $1";
+  const QueryProducts = "SELECT * FROM cart WHERE user_id = $1";
+
+  const GatherAllProducts = async () => {
+    const QueryUserData = await db.query(QueryUser, [DecodedToken.UserId]);
+
+    const QueryProductsData = await db.query(
+      QueryProducts,
+      QueryUserData[0].user_id
+    );
+
+    return res.send(QueryProductsData);
+  };
+
+  GatherAllProducts();
 });
 
 app.listen(5000, () => {
