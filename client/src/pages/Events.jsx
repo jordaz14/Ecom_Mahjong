@@ -5,7 +5,7 @@ import ContentCard from "../components/ContentCard";
 import Icon from "../components/Icon";
 import EventRegister from "../components/EventRegister";
 
-import Register from "../assets/RegisterIcon.png";
+import Plus from "../assets/plus.png";
 function Events() {
 
   return (

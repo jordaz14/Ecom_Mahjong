@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 
-import Register from "../assets/RegisterIcon.png";
+import Plus from "../assets/plus.png";
 import CloseIcon from "../assets/CloseIcon.png";
 
 import Icon from "../components/Icon";
@@ -14,7 +14,7 @@ function EventRegister({ IDNum }) {
     BgColor: "bg-gray-100",
     Desc: "hidden",
     OnClickToggle: false,
-    Icon: Register,
+    Icon: Plus,
   });
 
   const CheckOnClickToggle = () => {
@@ -32,7 +32,7 @@ function EventRegister({ IDNum }) {
         BgColor: "bg-gray-100",
         Desc: "hidden",
         OnClickToggle: false,
-        Icon: Register,
+        Icon: Plus,
       });
     }
   };
@@ -52,7 +52,9 @@ function EventRegister({ IDNum }) {
           <div className={"bg-gray-100 py-2 rounded-xl " + RegisterToggle.Desc}>
             <h2 className="font-bold">{"Location " + IDNum}</h2>
             <p>{"Description " + IDNum}</p>
-            <Button>Add to Cart</Button>
+            <a href="https://www.meetup.com/">
+              <Button>RSVP</Button>
+            </a>
           </div>
         </div>
         <Icon
