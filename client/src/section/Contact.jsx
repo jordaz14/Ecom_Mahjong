@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import ContentCard from "../components/ContentCard";
 import TitleText from "../components/TitleText";
@@ -9,11 +9,20 @@ import Email from "../assets/EmailIcon.png";
 import Icon from "../components/Icon";
 
 function Contact() {
+  const [Message, SetMessage] = useState();
+
+  const HandleSubmit = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <>
       <TitleText>Contact Us</TitleText>
       <ContentCard className="w-3/4 mx-auto py-2 px-4 h-2/3">
-        <form className="flex flex-col h-full justify-around">
+        <form
+          className="flex flex-col h-full justify-around"
+          onSubmit={HandleSubmit}
+        >
           <label for="email" className="text-left md:text-2xl">
             Enter your email address:
           </label>
@@ -31,7 +40,7 @@ function Contact() {
           </button>
         </form>
       </ContentCard>
-      <section className="flex justify-around items-center mt-8">
+      <section className="flex justify-around items-center mt-4">
         <a href="https://www.instagram.com/">
           <Icon img={Insta} className="md:h-20 md:w-20" />
         </a>
