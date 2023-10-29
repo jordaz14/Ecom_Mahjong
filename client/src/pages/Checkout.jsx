@@ -15,37 +15,45 @@ function Checkout() {
 
   useEffect(() => {
     async function GetFromCart() {
+      // Get UserData to submit to server
       const UserData = {
         Token: cookies.get("TOKEN"),
       };
 
+      // Send UserData to server
       try {
         const request = await axios.post(
           "http://localhost:5000/get-cart",
           UserData
         );
 
-        const RequestList = request.data;
+        // Initialize requestList to list of data from request
+        const requestList = request.data;
 
+        // Intialize CartTotal to 0, servers as counter for Total
         let CartTotal = 0;
 
-        let CartList = RequestList.map((item, index) => {
+        // For every item in cart, output product name, amount, and subtotal
+        let CartList = requestList.map((item, index) => {
+          // Recalc cart total
           CartTotal = CartTotal + item.product_price * item.product_amount;
           return (
-            <div className="flex justify-between">
-              <p className="text-black">
+            <div className="flex justify-between my-4" key={index}>
+              <p className="text-black md:text-2xl">
                 {item.product_name} x {item.product_amount}
               </p>
-              <p className="text-black">
-                ${item.product_price * item.product_amount}
+              <p className="text-black md:text-2xl">
+                ${(item.product_price * item.product_amount).toFixed(2)}
               </p>
             </div>
           );
         });
 
-        SetCartTotal(CartTotal);
+        SetCartTotal(CartTotal.toFixed(2));
+
         SetCartList(CartList);
       } catch (error) {
+        //Return error if try fails
         console.error(error);
       }
     }
@@ -53,6 +61,7 @@ function Checkout() {
     GetFromCart();
   }, []);
 
+  // Disable form submit for checkout form
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -62,27 +71,25 @@ function Checkout() {
       <CreateCarousel>
         <PageCarousel>
           <TitleText>Your Items</TitleText>
-          <ContentCard className="w-4/5 mx-auto">
-            <div className="flex justify-between font-bold">
-              <p>Product</p>
+          <ContentCard className="w-4/5 mx-auto md:w-1/3">
+            <div className="flex justify-between font-bold bg-green-100 mt-2 md:text-2xl">
+              <p>Item</p>
               <p>Amount</p>
             </div>
-            <div>
-              {CartList}
-              <div className="flex justify-between font-bold">
-                <p>Total</p>
-                <p>${CartTotal}</p>
-              </div>
+            <div>{CartList}</div>
+            <div className="flex justify-between font-bold bg-green-100 mb-2 md:text-2xl">
+              <p>Total</p>
+              <p>${CartTotal}</p>
             </div>
           </ContentCard>
         </PageCarousel>
         <PageCarousel>
           <TitleText>Your Info</TitleText>
-          <ContentCard className="w-4/5 mx-auto h-fit">
+          <ContentCard className="w-4/5 mx-auto h-fit md:w-1/3">
             <form className="flex flex-col my-2">
-              <h1 className="font-bold">Contact Information</h1>
+              <h1 className="font-bold md:text-2xl">Contact Information</h1>
               <input type="text" placeholder="Email" className="mb-2"></input>
-              <h1 className="font-bold">Shipping Address</h1>
+              <h1 className="font-bold md:text-2xl">Shipping Address</h1>
               <input
                 type="text"
                 placeholder="First Name"
@@ -106,8 +113,8 @@ function Checkout() {
                 placeholder="Postal Code"
                 className="mb-2"
               ></input>
-              <h1 className="font-bold">Payment Information</h1>
-              <p className="mb-2"> To be implemented. </p>
+              <h1 className="font-bold md:text-2xl">Payment Information</h1>
+              <p className="mb-2 md:text-2xl"> To be implemented. </p>
               <Button onClick={handleSubmit}>Complete Order</Button>
             </form>
           </ContentCard>
