@@ -8,8 +8,8 @@ app.use(cors());
 app.use(express.json());
 
 require("dotenv").config({ path: "../hidden.env" });
-const auth = require("./auth");
 
+// Establish connection to DB
 const conn = {
   host: "localhost",
   port: 5432,
@@ -21,170 +21,192 @@ const conn = {
 const pgp = require("pg-promise")();
 const db = pgp(conn);
 
-app.get("/test", auth, (req, res) => {
-  res.json({
-    john: { age: 32, hobby: "soccer", single: true },
-    kat: { age: 21, hobby: "football", single: false },
-  });
-});
-
+// HANDLE USER LOGINS
 app.post("/user-login", (req, res) => {
-  const UserData = req.body;
+  // Initialize req data to userData
+  const userData = req.body;
 
-  // Check if UserData is valid
-  if (UserData.name == "" || UserData.password == "") {
+  // Check if User completed entries
+  if (userData.name == "" || userData.password == "") {
     return res.send({ Message: "Please enter valid user info." });
   }
 
-  // DB Queries
-  const QueryUser = "SELECT * FROM users WHERE email = $1";
+  // Query to check if user email exists in user table
+  const queryUser = "SELECT * FROM users WHERE email = $1";
 
-  // Check if UserData is valid
-  const CheckUserAndReturnToken = async () => {
-    const QueryUserData = await db.query(QueryUser, [UserData.email]);
+  // Check if userData is valid
+  const checkUserAndReturnToken = async () => {
+    //Gather data from users table
+    const queryUserData = await db.query(queryUser, [userData.email]);
 
-    if (QueryUserData.length == 0) {
+    // If user doesn't exist, notify client
+    if (queryUserData.length == 0) {
       return res.send({
         Message: "Account doesn't exist. Try creating an account",
       });
     }
 
-    const MatchingPasswordCheck = await bcrypt.compare(
-      UserData.password,
-      QueryUserData[0].password
+    // Return True / False, contingent on if passwords match
+    const matchingPasswordCheck = await bcrypt.compare(
+      userData.password,
+      queryUserData[0].password
     );
 
-    if (!MatchingPasswordCheck) {
+    // If False on password match, notify cleint
+    if (!matchingPasswordCheck) {
       return res.send({ Message: "Passwords do not match. Try again" });
-    } else {
+    }
+    // Otherwise, create JWT token and alert user of successful login
+    else {
       const Token = jwt.sign(
-        { UserId: UserData.email, UserUnique: UserData.user_id },
+        { UserId: userData.email, UserUnique: userData.user_id },
         "RANDOM-TOKEN"
       );
 
-      res.send({ Message: "Login successful", Auth: UserData.email, Token });
+      res.send({ Message: "Login successful", Auth: userData.email, Token });
     }
   };
 
-  CheckUserAndReturnToken();
+  checkUserAndReturnToken();
 });
 
-// Route for users registering an account
+// REGISTER A CLIENT
 app.post("/user-register", (req, res) => {
-  const UserData = req.body;
+  // Initialize req data to userData
+  const userData = req.body;
 
-  // Check if UserData is valid
-  if (UserData.name == "" || UserData.password == "") {
+  // Check if userData is valid
+  if (userData.name == "" || userData.password == "") {
     return res.send({ Message: "Please enter valid user info." });
   }
 
   // DB Queries
-  const QueryUser = "SELECT * FROM users WHERE email = $1";
-  const InsertUser = "INSERT INTO users (email, password) VALUES ($1, $2)";
+  const queryUser = "SELECT * FROM users WHERE email = $1";
+  const insertUser = "INSERT INTO users (email, password) VALUES ($1, $2)";
 
-  // Check if UserData is valid
-  const CheckUserAndCreateAccount = async () => {
-    const QueryUserData = await db.query(QueryUser, [UserData.email]);
+  // Check if userData is valid, create account if so
+  const checkUserAndCreateAccount = async () => {
+    // Find user data based on client's submitted email
+    const queryUserData = await db.query(queryUser, [userData.email]);
 
-    if (QueryUserData.length > 0) {
+    // If email already exists, notify client
+    if (queryUserData.length > 0) {
       return res.send({ Message: "Account already exists. Try logging in." });
-    } else {
-      const HashPassword = await bcrypt.hash(UserData.password, 10);
-      db.query(InsertUser, [UserData.email, HashPassword]);
+    }
+    // Otherwise, encrypt password, insert client req into users table, and notify client of success
+    else {
+      const hashPassword = await bcrypt.hash(userData.password, 10);
+      db.query(insertUser, [userData.email, hashPassword]);
       return res.send({ Message: "Account created. Welcome!" });
     }
   };
 
-  CheckUserAndCreateAccount();
+  checkUserAndCreateAccount();
 });
 
+// OUTPUT PRODUCTS TO MERCH PAGE
 app.get("/merch-products", (req, res) => {
-  const QueryProducts = "SELECT * FROM products";
+  const queryProducts = "SELECT * FROM products";
 
-  const GatherAllProducts = async () => {
-    const QueryProductsData = await db.query(QueryProducts);
+  const gatherAllProducts = async () => {
+    const queryProductsData = await db.query(queryProducts);
 
-    console.log(QueryProductsData);
-    return res.send(QueryProductsData);
+    return res.send(queryProductsData);
   };
 
-  GatherAllProducts();
+  gatherAllProducts();
 });
 
+// ADD ITEMS TO CLIENT'S CART
 app.post("/add-to-cart", (req, res) => {
-  const CartData = req.body;
+  // Initialize req data to cartData
+  const cartData = req.body;
 
-  const DecodedToken = jwt.verify(CartData.Token, "RANDOM-TOKEN");
+  // Decode client's token to query for user data
+  const decodedToken = jwt.verify(cartData.Token, "RANDOM-TOKEN");
 
-  const QueryProducts = "SELECT * FROM products WHERE product_id = $1";
-  const QueryUser = "SELECT * FROM users WHERE email = $1";
-  const QueryCart = "SELECT * FROM cart WHERE product_id = $1 AND user_id = $2";
-  const InsertCart =
+  // DB Queries
+  // Query to find product info based on product client clicked
+  const queryProducts = "SELECT * FROM products WHERE product_id = $1";
+  // Query to find user info based info from token
+  const queryUser = "SELECT * FROM users WHERE email = $1";
+  // Query to check if user has added product to cart before
+  const queryCart = "SELECT * FROM cart WHERE product_id = $1 AND user_id = $2";
+  // Query to insert product in cart
+  const insertCart =
     "INSERT INTO cart (user_id, product_id, product_price, product_amount, product_name, product_path) VALUES ($1, $2, $3, $4, $5, $6)";
-  const UpdateCart =
+  // Query to update amount of product in cart
+  const updateCart =
     "UPDATE cart SET product_amount = $1 WHERE product_id = $2 AND user_id = $3";
 
-  const GatherProductGatherUserAddToCart = async () => {
-    const QueryProductsData = await db.query(QueryProducts, [CartData.ProdId]);
-    console.log(QueryProductsData);
+  // Gather info about product and user, subsequently add to cart
+  const gatherProductGatherUserAddToCart = async () => {
+    //Gather info about product client submitted
+    const queryProductsData = await db.query(queryProducts, [cartData.ProdId]);
 
-    const QueryUserData = await db.query(QueryUser, [DecodedToken.UserId]);
-    console.log(QueryUserData);
+    // Gather info about client
+    const queryUserData = await db.query(queryUser, [decodedToken.UserId]);
 
-    const QueryCartData = await db.query(QueryCart, [
-      QueryProductsData[0].product_id,
-      QueryUserData[0].user_id,
+    // Gather info about product and client combination from cart table
+    const queryCartData = await db.query(queryCart, [
+      queryProductsData[0].product_id,
+      queryUserData[0].user_id,
     ]);
-    console.log(QueryCartData);
 
-    if (QueryCartData.length > 0) {
-      console.log("Entry found");
-      const NewProductAmount = QueryCartData[0].product_amount + 1;
-      db.query(UpdateCart, [
-        NewProductAmount,
-        QueryProductsData[0].product_id,
-        QueryUserData[0].user_id,
+    // If product/client combination exists in cart, add +1 of product to cart
+    if (queryCartData.length > 0) {
+      const newProductAmount = queryCartData[0].product_amount + 1;
+
+      db.query(updateCart, [
+        newProductAmount,
+        queryProductsData[0].product_id,
+        queryUserData[0].user_id,
       ]);
-    } else {
-      console.log("Entry not found");
-      db.query(InsertCart, [
-        QueryUserData[0].user_id,
-        QueryProductsData[0].product_id,
-        QueryProductsData[0].price,
+    }
+    //Otherwise, create initial entry of product to cart
+    else {
+      db.query(insertCart, [
+        queryUserData[0].user_id,
+        queryProductsData[0].product_id,
+        queryProductsData[0].price,
         1,
-        QueryProductsData[0].product,
-        QueryProductsData[0].path,
+        queryProductsData[0].product,
+        queryProductsData[0].path,
       ]);
     }
   };
 
-  GatherProductGatherUserAddToCart();
+  gatherProductGatherUserAddToCart();
 
   res.send("POST RECEIVED");
 });
 
+// GET ITEMS FROM CLIENT'S CART
 app.post("/get-cart", (req, res) => {
-  // Initialize req data to UserData
-  const UserData = req.body;
+  // Initialize req data to userData
+  const userData = req.body;
 
-  // Decode Token contained with UserData
-  const DecodedToken = jwt.verify(UserData.Token, "RANDOM-TOKEN");
+  // Decode Token contained within userData
+  const decodedToken = jwt.verify(userData.Token, "RANDOM-TOKEN");
 
-  const QueryUser = "SELECT * FROM users WHERE email = $1";
-  const QueryProducts = "SELECT * FROM cart WHERE user_id = $1";
+  // DB Queries
+  const queryUser = "SELECT * FROM users WHERE email = $1";
+  const queryProducts = "SELECT * FROM cart WHERE user_id = $1";
 
-  const GatherAllProducts = async () => {
-    const QueryUserData = await db.query(QueryUser, [DecodedToken.UserId]);
+  const gatherAllProducts = async () => {
+    // Gather user data from decoded token
+    const queryUserData = await db.query(queryUser, [decodedToken.UserId]);
 
-    const QueryProductsData = await db.query(
-      QueryProducts,
-      QueryUserData[0].user_id
+    // Use user data to query cart for stored items
+    const queryProductsData = await db.query(
+      queryProducts,
+      queryUserData[0].user_id
     );
 
-    return res.send(QueryProductsData);
+    return res.send(queryProductsData);
   };
 
-  GatherAllProducts();
+  gatherAllProducts();
 });
 
 app.listen(5000, () => {
