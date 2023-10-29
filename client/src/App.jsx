@@ -9,7 +9,6 @@ import Home from "./pages/Home";
 import Merch from "./pages/Merch";
 import Register from "./pages/Register";
 import Checkout from "./pages/Checkout";
-import Test from "./pages/Test";
 import MyAccount from "./pages/MyAccount";
 
 import ProtectedRoute from "./pages/ProtectedRoute";
@@ -46,7 +45,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/test" element={<Test />} />
         </Routes>
       </Router>
     </>
