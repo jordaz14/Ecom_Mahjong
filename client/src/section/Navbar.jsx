@@ -13,27 +13,20 @@ import PageCarousel from "../components/PageCarousel.jsx";
 
 function Navbar() {
   const Token = cookies.get("TOKEN");
-  console.log(Token);
 
+  // Conditonally render link on Navbar whether the client is logged in
   const IsLoggedIn = () => {
     if (Token == undefined) {
-      return (
-        <a href="/login" className="text-black">
-          LOG-IN
-        </a>
-      );
+      return <a href="/login">LOG-IN</a>;
     } else {
-      return (
-        <a href="/myaccount" className="text-black">
-          MY ACCOUNT
-        </a>
-      );
+      return <a href="/myaccount">MY ACCOUNT</a>;
     }
   };
 
   const [IsMenu, SetIsMenu] = useState("hidden");
   return (
     <>
+      {/* Navbar for desktop view */}
       <section id="Nav1" className="hidden md:block">
         <nav className="flex items-center justify-around w-2/3 mx-auto mt-2">
           <div className="flex justify-around items-center w-full mx-auto bg-green-800 rounded-md border-solid border-2">
@@ -46,7 +39,7 @@ function Navbar() {
             <a href="/merch" className="text-white">
               MERCH
             </a>
-            {IsLoggedIn()}
+            <p className="text-white">{IsLoggedIn()}</p>
           </div>
           <div className="bg-green-100 hover:bg-green-300 rounded-full w-6 h-6 flex md:h-10 md:w-10 ml-4">
             <a href="/checkout">
@@ -55,6 +48,7 @@ function Navbar() {
           </div>
         </nav>
       </section>
+      {/* Navbar for mobile view */}
       <section id="Nav2" className="block md:hidden">
         <div
           className={"bg-green-100 bg-opacity-100 w-screen h-screen " + IsMenu}

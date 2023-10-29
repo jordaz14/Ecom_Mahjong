@@ -14,7 +14,7 @@ function Founders() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState(null);
 
-  // List of Founders
+  // Lists for Founder (for better design, store as object)
   const FounderPhotoList = [Founder1, Founder2, Founder3, Founder4];
   const FounderNameList = [
     "Mark Davis",
@@ -29,6 +29,7 @@ function Founders() {
     "Alice is a devoted fan of Mahjong, relishing the intellectual challenge and camaraderie the game provides. In addition to her passion for Mahjong, she indulges in various other hobbies that showcase her diverse interests. Alice is an avid gardener, nurturing a lush botanical haven in her backyard, a skilled baker known for whipping up delectable pastries, and an accomplished hiker who frequently explores the beauty of nature on long, picturesque trails.",
   ];
 
+  // For every founder in the list, return a profile card containing founder
   let FounderList = FounderPhotoList.map((photo, index) => {
     return (
       <React.Fragment key={index}>
