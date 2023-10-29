@@ -9,8 +9,8 @@ import Email from "../assets/EmailIcon.png";
 import Icon from "../components/Icon";
 
 function Contact() {
-  const [Message, SetMessage] = useState();
 
+  // Disable form submission
   const HandleSubmit = (e) => {
     e.preventDefault();
   };
@@ -23,17 +23,17 @@ function Contact() {
           className="flex flex-col h-full justify-around"
           onSubmit={HandleSubmit}
         >
-          <label for="email" className="text-left md:text-2xl">
-            Enter your email address:
+          <label htmlFor="email" className="text-left md:text-2xl">
+            Email
           </label>
           <input type="email" id="email" placeholder="user@email.com"></input>
-          <label for="text" className="text-left md:text-2xl">
-            Enter your message:
+          <label htmlFor="text" className="text-left md:text-2xl">
+            Message
           </label>
           <textarea
             id="text"
             className="h-3/4"
-            placeholder="We'll be sure to get back to you!"
+            placeholder="Type message..."
           ></textarea>
           <button className="bg-green-100 hover:bg-green-300 font-bold drop-shadow-lg mt-2 md:text-2xl">
             Submit

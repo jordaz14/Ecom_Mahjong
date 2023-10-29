@@ -10,27 +10,33 @@ function Register() {
   const [Email, SetEmail] = useState("");
   const [Password, SetPassword] = useState("");
   const [Message, SetMessage] = useState(null);
+  const [ShowPassword, SetShowPassword] = useState("password");
 
+  // Handle when client submits form to register
   const handleSubmit = async (e) => {
     e.preventDefault();
     SetMessage(null);
 
+    // Create UserData to submit to server
     const UserData = {
       email: Email,
       password: Password,
     };
+
+    // Try to submit UserData to server, and prompt client of response
     try {
       const Response = await axios.post(
         "http://localhost:5000/user-register",
         UserData
       );
       SetMessage(Response.data.Message);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      // Return error if try fails
+      console.log(error);
     }
   };
 
-  const [ShowPassword, SetShowPassword] = useState("password");
+  // Toggle to show password when client clicks on checkbox
   const ShowPasswordToggle = () => {
     if (ShowPassword == "password") {
       SetShowPassword("text");
@@ -42,12 +48,12 @@ function Register() {
   return (
     <>
       <CreateCarousel>
-        <PageCarousel className="md:w-2/3 mx-auto">
+        <PageCarousel className="md:w-2/5 mx-auto">
           <TitleText>Create an account</TitleText>
           <ContentCard className="w-3/4 mx-auto py-2 px-4">
             <form onSubmit={handleSubmit} className="flex flex-col h-full">
               <label htmlFor="email" className="text-left md:text-2xl">
-                Enter your email address:
+                Email
               </label>
               <input
                 type="email"
@@ -57,13 +63,13 @@ function Register() {
                 onChange={(e) => SetEmail(e.target.value)}
               ></input>
               <label htmlFor="password" className="text-left md:text-2xl">
-                Enter your password:
+                Password
               </label>
               <input
                 type={ShowPassword}
                 id="password"
                 value={Password}
-                placeholder="password"
+                placeholder="Type here..."
                 onChange={(e) => SetPassword(e.target.value)}
               ></input>
               <div className="flex mt-2">
@@ -83,7 +89,7 @@ function Register() {
                 Register
               </button>
             </form>
-            <p>
+            <p className="md:text-2xl mt-2">
               Already have an account?{" "}
               <a href="/login" className="font-bold">
                 Log-In
