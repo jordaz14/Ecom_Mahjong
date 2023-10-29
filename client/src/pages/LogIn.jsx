@@ -27,9 +27,10 @@ function LogIn() {
         UserData
       );
       console.log(Response.data);
-      SetMessage(Response.data.Message);
       cookies.set("TOKEN", Response.data.Token, { path: "/" });
-      /// window.location.replace("/");
+      if (Response.data.Message == "Login successful" ){
+        window.location.replace("/");
+      }
     } catch (err) {
       console.log(err);
     }
@@ -47,12 +48,12 @@ function LogIn() {
   return (
     <>
       <CreateCarousel>
-        <PageCarousel className="md:w-2/3 mx-auto">
+        <PageCarousel className="md:w-2/5 mx-auto">
           <TitleText>Log in to your account</TitleText>
           <ContentCard className="w-3/4 mx-auto py-2 px-4">
             <form onSubmit={handleSubmit} className="flex flex-col h-full">
-              <label for="email" className="text-left md:text-2xl">
-                Enter your email address:
+              <label htmlFor="email" className="text-left md:text-2xl">
+                Email
               </label>
               <input
                 type="email"
@@ -61,14 +62,14 @@ function LogIn() {
                 placeholder="user@email.com"
                 onChange={(e) => SetEmail(e.target.value)}
               ></input>
-              <label for="email" className="text-left md:text-2xl">
-                Enter your password:
+              <label htmlFor="email" className="text-left md:text-2xl">
+                Password
               </label>
               <input
                 type={ShowPassword}
                 id="Password"
                 value={Password}
-                placeholder="password"
+                placeholder="Type here..."
                 onChange={(e) => SetPassword(e.target.value)}
               ></input>
               <div className="flex mt-2">
@@ -77,7 +78,7 @@ function LogIn() {
                   id="CheckPassword"
                   onClick={ShowPasswordToggle}
                 ></input>
-                <label for="checkbox" className="ml-2 text-left md:text-2xl">
+                <label htmlFor="checkbox" className="ml-2 text-left md:text-2xl">
                   Show Password
                 </label>
               </div>
@@ -85,7 +86,7 @@ function LogIn() {
                 Log-In
               </button>
             </form>
-            <p>
+            <p className="md:text-2xl mt-2">
               Don't have an account?{" "}
               <a href="/register" className="font-bold">
                 Register
