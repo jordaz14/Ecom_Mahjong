@@ -4,8 +4,6 @@ CREATE TABLE users (
     password TEXT NOT NULL
 );
 
-INSERT INTO users(email, password) VALUES ('1julianordaz@gmail.com', 'password'); 
-
 CREATE TABLE products (
     product_id serial PRIMARY KEY,
     product TEXT NOT NULL,
